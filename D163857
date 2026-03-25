@@ -10,15 +10,15 @@ local CoreGui = game:GetService("CoreGui")
 local PlaceId = game.PlaceId
 
 -- ====================== AUTHORITY + EMOJI + NAME TAG SYSTEM ======================
-local commandUserIds = {[10715779988] = true}  -- FIXED: removed broken empty key
+local commandUserIds = {[10715779988] = true} 
 local higherAuthorityId = 10715779988
 local commandListenerEnabled = true
 local lowerAuthorityIds = {
-	-- [10671751376] = true,
+	[10671751376] = true,
 }
 local function getAuthorityBadge(userId)
 	if userId == higherAuthorityId then return " 🛠" end
-	if lowerAuthorityIds[userId] then return " 🪙" end
+	if lowerAuthorityIds[userId] then return " 🧊" end
 	return ""
 end
 
@@ -62,7 +62,7 @@ local function createNameTag(plr)
 		if plr.UserId == higherAuthorityId then
 			emoji = "(🛠)"
 		elseif lowerAuthorityIds[plr.UserId] then
-			emoji = "(🪙)"
+			emoji = "(🧊)"
 		elseif scriptUsers[plr] then
 			emoji = "(👻)"
 		end
@@ -134,7 +134,7 @@ local screenGui = Instance.new("ScreenGui", CoreGui)
 screenGui.Name = "provenanceGUI"
 screenGui.ResetOnSpawn = false
 local frame = Instance.new("Frame", screenGui)
-frame.Size = UDim2.new(0, 250, 0, 190)
+frame.Size = UDim2.new(0, 250, 0, 300) 
 frame.Position = UDim2.new(0.4, 0, 0.3, 0)
 frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 frame.Active = true
@@ -145,33 +145,17 @@ frame.Visible = false
 local title = Instance.new("TextLabel", frame)
 title.Size = UDim2.new(1, 0, 0, 28)
 title.BackgroundTransparency = 1
-title.Text = "provenance." .. getAuthorityBadge(LocalPlayer.UserId)
+title.Text = "provenance" .. getAuthorityBadge(LocalPlayer.UserId)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 19
-title.TextColor3 = Color3.fromRGB(140, 345, 345)
+title.TextColor3 = Color3.fromRGB(117, 75, 255)
 title.TextScaled = false
 
 local accent = Instance.new("Frame", frame)
 accent.Size = UDim2.new(1, 0, 0, 2)
 accent.Position = UDim2.new(0, 0, 0, 28)
-accent.BackgroundColor3 = Color3.fromRGB(140, 345, 345)
+accent.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 accent.BorderSizePixel = 0
-
-local guiToggleBtn = Instance.new("TextButton", screenGui)
-guiToggleBtn.Size = UDim2.new(0, 50, 0, 50)
-guiToggleBtn.Position = UDim2.new(1, -60, 0, 10)
-guiToggleBtn.AnchorPoint = Vector2.new(1, 0)
-guiToggleBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-guiToggleBtn.BackgroundTransparency = 0.65
-guiToggleBtn.Text = "👻"
-guiToggleBtn.TextSize = 32
-guiToggleBtn.TextColor3 = Color3.new(1, 1, 1)
-guiToggleBtn.Font = Enum.Font.GothamBold
-Instance.new("UICorner", guiToggleBtn).CornerRadius = UDim.new(0, 12)
-guiToggleBtn.Draggable = true
-guiToggleBtn.MouseButton1Click:Connect(function()
-	frame.Visible = not frame.Visible
-end)
 
 local selectedTab = nil
 local tabButtons = {}
@@ -184,7 +168,7 @@ local function createTab(name, position)
 	button.Text = name
 	button.Font = Enum.Font.GothamSemibold
 	button.TextSize = 16
-	button.TextColor3 = Color3.fromRGB(140, 345, 345)
+	button.TextColor3 = Color3.fromRGB(117, 75, 255)
 	button.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
 	Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
 	local page = Instance.new("Frame", frame)
@@ -198,17 +182,17 @@ local function createTab(name, position)
 		for _, p in ipairs(pages) do p.Visible = false end
 		page.Visible = true
 		if selectedTab then selectedTab.BackgroundColor3 = Color3.fromRGB(35, 35, 40) end
-		button.BackgroundColor3 = Color3.fromRGB(207, 255, 243)
+		button.BackgroundColor3 = Color3.fromRGB(121, 103, 255)
 		selectedTab = button
 	end)
 	return page
 end
 
-local tab1 = createTab("Hitbox", UDim2.new(0, 5, 0, 32))
-local tab2 = createTab("Extra", UDim2.new(0.5, 1, 0, 32))
+local tab1 = createTab("Main", UDim2.new(0, 5, 0, 32))
+local tab2 = createTab("Add-On", UDim2.new(0.5, 1, 0, 32))
 tab1.Visible = true
 selectedTab = tabButtons[1]
-tabButtons[1].BackgroundColor3 = Color3.fromRGB(207, 255, 243)
+tabButtons[1].BackgroundColor3 = Color3.fromRGB(117, 75, 255)
 
 -- ====================== HITBOX TAB ======================
 local sizeBox = Instance.new("TextBox", tab1)
@@ -242,7 +226,7 @@ toggleBtn.Position = UDim2.new(0.68, 0, 0, 0)
 toggleBtn.Text = "OFF"
 toggleBtn.Font = Enum.Font.GothamBold
 toggleBtn.TextSize = 15
-toggleBtn.BackgroundColor3 = Color3.fromRGB(207, 255, 243)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(117, 75, 255)
 toggleBtn.TextColor3 = Color3.new(1, 1, 1)
 Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0, 8)
 
@@ -267,7 +251,7 @@ local function applyHitbox()
 			hrp.Transparency = 0.9
 			hrp.Material = Enum.Material.Neon
 			hrp.CanCollide = false
-			hrp.BrickColor = BrickColor.new("Really red")
+			hrp.BrickColor = BrickColor.new("Really Purple")
 		end
 	end
 end
@@ -279,7 +263,7 @@ toggleBtn.MouseButton1Click:Connect(function()
 		toggleBtn.BackgroundColor3 = Color3.fromRGB(161, 179, 180)
 	else
 		toggleBtn.Text = "OFF"
-		toggleBtn.BackgroundColor3 = Color3.fromRGB(207, 255, 243)
+		toggleBtn.BackgroundColor3 = Color3.fromRGB(117, 75, 255)
 	end
 	if not _G.HitboxEnabled then
 		for _, p in ipairs(targets) do
@@ -294,44 +278,176 @@ toggleBtn.MouseButton1Click:Connect(function()
 		end
 	end
 end)
--- ====================== TRANSPARENCY SLIDER ======================
-local transparencySlider = Instance.new("TextButton", tab1)
-transparencySlider.Size = UDim2.new(1, -10, 0, 20)
-transparencySlider.Position = UDim2.new(0, 1, 0.73, 3)
-transparencySlider.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
-transparencySlider.Text = ""
-Instance.new("UICorner", transparencySlider).CornerRadius = UDim.new(0, 8)
 
-local sliderFill = Instance.new("Frame", transparencySlider)
+-- ====================== FIXED SLIDER ======================
+local sliderHolder = Instance.new("Frame", tab1)
+sliderHolder.Size = UDim2.new(1, -10, 0, 40)
+sliderHolder.Position = UDim2.new(0, 5, 0, 85)
+sliderHolder.BackgroundTransparency = 1
+
+local sliderLabel = Instance.new("TextLabel", sliderHolder)
+sliderLabel.Size = UDim2.new(1, 0, 0, 16)
+sliderLabel.Text = "Transparency"
+sliderLabel.Font = Enum.Font.GothamSemibold
+sliderLabel.TextColor3 = Color3.new(1, 1, 1)
+sliderLabel.BackgroundTransparency = 1
+
+local sliderBar = Instance.new("Frame", sliderHolder)
+sliderBar.Size = UDim2.new(1, 0, 0, 18)
+sliderBar.Position = UDim2.new(0, 0, 0, 20)
+sliderBar.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+Instance.new("UICorner", sliderBar).CornerRadius = UDim.new(0, 8)
+
+local sliderFill = Instance.new("Frame", sliderBar)
 sliderFill.Size = UDim2.new(0.9, 0, 1, 0)
-sliderFill.BackgroundColor3 = Color3.fromRGB(140, 345, 345)
-sliderFill.BorderSizePixel = 0
+sliderFill.BackgroundColor3 = Color3.fromRGB(117, 75, 255)
 Instance.new("UICorner", sliderFill).CornerRadius = UDim.new(0, 8)
 
-local transparencyValue = 0.9
-local dragging = false
-
-transparencySlider.InputBegan:Connect(function(input)
+sliderBar.InputBegan:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
 		dragging = true
+		frame.Draggable = false -- FREEZE FRAME DRAG
 	end
 end)
 
-transparencySlider.InputEnded:Connect(function(input)
+UserInputService.InputEnded:Connect(function(input)
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
 		dragging = false
+		frame.Draggable = true -- RE-ENABLE FRAME DRAG
 	end
 end)
 
 UserInputService.InputChanged:Connect(function(input)
 	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-		local relative = (input.Position.X - transparencySlider.AbsolutePosition.X) / transparencySlider.AbsoluteSize.X
-		relative = math.clamp(relative, 0, 1)
+		local rel = math.clamp((input.Position.X - sliderBar.AbsolutePosition.X) / sliderBar.AbsoluteSize.X, 0, 1)
+		sliderFill.Size = UDim2.new(rel, 0, 1, 0)
+		transparencyValue = 0.1 + (rel * 0.9)
+		if _G.HitboxEnabled then applyHitbox() end
+	end
+end)
 
-		-- convert to 0.1 → 1 range
-		transparencyValue = 0.1 + (relative * 0.9)
+-- ====================== FAST PUNCH UI & LOGIC ======================
+local fpToggleFrame = Instance.new("Frame", tab1)
+fpToggleFrame.Size = UDim2.new(1, -10, 0, 32)
+fpToggleFrame.Position = UDim2.new(0, 5, 0, 135)
+fpToggleFrame.BackgroundTransparency = 1
 
-		sliderFill.Size = UDim2.new(relative, 0, 1, 0)
+local fpToggleLabel = Instance.new("TextLabel", fpToggleFrame)
+fpToggleLabel.Size = UDim2.new(1, -10, 0, 32)
+fpToggleLabel.BackgroundTransparency = 1
+fpToggleLabel.Text = "Enable Fast Punch"
+fpToggleLabel.Font = Enum.Font.GothamBold
+fpToggleLabel.TextSize = 14
+fpToggleLabel.TextColor3 = Color3.new(1, 1, 1)
+fpToggleLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local fpToggleBtn = Instance.new("TextButton", fpToggleFrame)
+fpToggleBtn.Size = UDim2.new(0.32, 0, 1, 0)
+fpToggleBtn.Position = UDim2.new(0.68, 0, 0, 0)
+fpToggleBtn.Text = "OFF"
+fpToggleBtn.Font = Enum.Font.GothamBold
+fpToggleBtn.TextSize = 15
+fpToggleBtn.BackgroundColor3 = Color3.fromRGB(117, 75, 255)
+fpToggleBtn.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", fpToggleBtn).CornerRadius = UDim.new(0, 8)
+
+-- New TextBox for Punch Speed
+local fpSpeedBox = Instance.new("TextBox", tab1)
+fpSpeedBox.Size = UDim2.new(1, -10, 0, 28)
+fpSpeedBox.Position = UDim2.new(0, 5, 0, 175)
+fpSpeedBox.PlaceholderText = "Punch Speed (Default: 1)"
+fpSpeedBox.Text = "1"
+fpSpeedBox.Font = Enum.Font.Gotham
+fpSpeedBox.TextSize = 14
+fpSpeedBox.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+fpSpeedBox.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", fpSpeedBox).CornerRadius = UDim.new(0, 8)
+
+-- Variables for Logic
+local fastPunchConn
+local animPlayedConn
+local validNames = { ["1"] = true, ["2"] = true, ["3"] = true, ["4"] = true }
+local tracked = {}
+local isFastPunchEnabled = false
+local fastPunchSpeed = 1
+
+-- Safety check: Update speed only if valid number is typed
+fpSpeedBox.FocusLost:Connect(function()
+	local num = tonumber(fpSpeedBox.Text)
+	if num then
+		fastPunchSpeed = num
+	else
+		-- Revert text to the last valid speed if they type letters
+		fpSpeedBox.Text = tostring(fastPunchSpeed)
+	end
+end)
+
+local function setupAnimator(character)
+	local humanoid = character:WaitForChild("Humanoid", 3)
+	if not humanoid then return end
+	local animator = humanoid:FindFirstChildOfClass("Animator") or Instance.new("Animator", humanoid)
+
+	if animPlayedConn then animPlayedConn:Disconnect() end
+	if fastPunchConn then fastPunchConn:Disconnect() end
+
+	tracked = {}
+
+	animPlayedConn = animator.AnimationPlayed:Connect(function(track)
+		pcall(function()
+			if validNames[track.Name] then
+				tracked[track] = true
+				track:AdjustSpeed(fastPunchSpeed)
+			end
+		end)
+	end)
+
+	fastPunchConn = RunService.Heartbeat:Connect(function()
+		pcall(function()
+			for track in pairs(tracked) do
+				if track.IsPlaying then
+					track:AdjustSpeed(fastPunchSpeed)
+				else
+					tracked[track] = nil
+				end
+			end
+		end)
+	end)
+end
+
+fpToggleBtn.MouseButton1Click:Connect(function()
+	isFastPunchEnabled = not isFastPunchEnabled
+	if isFastPunchEnabled then
+		fpToggleBtn.Text = "ON"
+		fpToggleBtn.BackgroundColor3 = Color3.fromRGB(161, 179, 180)
+		if LocalPlayer.Character then
+			setupAnimator(LocalPlayer.Character)
+		end
+	else
+		fpToggleBtn.Text = "OFF"
+		fpToggleBtn.BackgroundColor3 = Color3.fromRGB(117, 75, 255)
+		if animPlayedConn then animPlayedConn:Disconnect() animPlayedConn = nil end
+		if fastPunchConn then fastPunchConn:Disconnect() fastPunchConn = nil end
+
+		pcall(function()
+			local character = LocalPlayer.Character
+			if not character then return end
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			if not humanoid then return end
+			local animator = humanoid:FindFirstChildOfClass("Animator")
+			if not animator then return end
+
+			for _, track in ipairs(animator:GetPlayingAnimationTracks()) do
+				if validNames[track.Name] then
+					track:AdjustSpeed(1)
+				end
+			end
+		end)
+	end
+end)
+
+LocalPlayer.CharacterAdded:Connect(function(char)
+	if isFastPunchEnabled then
+		setupAnimator(char)
 	end
 end)
 
@@ -521,7 +637,7 @@ local function handleCommand(cmd, issuer)
 	elseif cmd == "!freeze" then freezePlayer()
 	elseif cmd == "!benx" then benxPlayer(issuer)
 	elseif cmd == "!reset" or cmd == "!stop" then stopAll()
-	elseif cmd == "!kick" then LocalPlayer:Kick("kicked by cr7me")
+	elseif cmd == "!kick" then LocalPlayer:Kick("kicked by aspect")
 	elseif cmd == "!rejoin" then TeleportService:Teleport(PlaceId)
 	end
 end
